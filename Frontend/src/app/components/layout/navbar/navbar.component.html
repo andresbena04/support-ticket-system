@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg" [ngClass]="isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="redirectUrl">Dashboard</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Menú desplegable del correo -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            {{ email }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" [ngClass]="isDarkMode ? 'bg-dark text-white' : 'bg-light'">
+            <li><a class="dropdown-item d-flex align-items-center" [ngClass]="isDarkMode ? 'text-white' : 'text-dark'"
+                [routerLink]="['/profile']">
+                <i class='bx bx-user fs-5 me-1'></i>Perfil</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" [ngClass]="isDarkMode ? 'text-white' : 'text-dark'"
+                [routerLink]="['/change-password']">
+                <i class="bx bxs-key fs-5 me-1"></i>Cambiar contraseña</a></li>
+            <li>
+              <hr class="dropdown-divider bg-light">
+            </li>
+            <li>
+              <button class="dropdown-item text-danger d-flex align-items-center" (click)="logout()">
+                <i class='bx bx-log-out fs-5 me-1'></i>Cerrar sesión
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,68 @@
+<div class="py-3 py-md-5 vh-100" [class.dark-mode]="isDarkMode">
+    <div class="container align-items-center">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                <div class="p-4 p-md-5 rounded shadow-sm" [class.dark-mode-alt]="isDarkMode">
+                    <div class="row mb-3">
+                        <div class="col-12 d-flex justify-content-between align-items-center">
+                            <h3>Inicio de sesión</h3>
+                            <button class='btn btn-sm' [ngClass]="isDarkMode ? 'btn-outline-light' : 'btn-outline-dark'" (click)="toggleDarkMode()">
+                                <i class='fs-5 bx' [ngClass]="isDarkMode ? 'bx-sun' : 'bx-moon'"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-muted" [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">Accede a tu cuenta para continuar.</p>
+                    <form [formGroup]="formLogin" (ngSubmit)="signIn()">
+                        <div class="row gy-2 gy-md-2 overflow-hidden">
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text" [ngClass]="{'bg-dark text-light': isDarkMode, 'bg-light text-dark': !isDarkMode}">
+                                            <i class='bx bxs-user'></i>
+                                        </span>
+                                        <div class="form-floating" >
+                                            <input type="email" class="form-control" id="floatingEmail"
+                                                placeholder="name@example.com" formControlName="email" required>
+                                            <label for="floatingEmail" class="text-dark" >Correo electrónico <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text" [ngClass]="{'bg-dark text-light': isDarkMode, 'bg-light text-dark': !isDarkMode}">
+                                        <i class="bx bx-lock-alt"></i>
+                                    </span>
+                                    <div class="form-floating">
+                                        <input [type]="isPasswordVisible ? 'text' : 'password'" class="form-control" id="floatingPassword"
+                                            placeholder="Password" formControlName="password">
+                                        <label for="floatingPassword" class="text-dark">Contraseña <span class="text-danger">*</span></label>
+                                    </div>
+                                    <a role="button" class="input-group-text text-decoration-none" (click)="togglePasswordVisibility()" [ngClass]="{'bg-dark text-light': isDarkMode, 'bg-light text-dark': !isDarkMode}">
+                                        <i class='bx ' [ngClass]="isPasswordVisible ? 'bx-hide' : 'bx-show'"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3 mt-3 d-flex justify-content-start">
+                                <a [routerLink]="['/reset-password']" class="link-secondary text-decoration-none" [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">¿Has olvidado tu contraseña?</a>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    @if (!loading) {
+                                    <button class="btn btn-lg btn-primary" type="submit">Ingresar</button>
+                                    } @else {
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" [ngClass]="isDarkMode ? 'text-light' : 'text-primary'" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

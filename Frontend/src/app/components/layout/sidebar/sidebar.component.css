@@ -1,0 +1,31 @@
+.sidebar {
+    height: 100vh;
+    transition: width 0.3s ease-in-out;
+    background-color: #EDF3F9;
+  }
+  
+  .collapsed .nav-link span,
+  .collapsed .fs-4 {
+    display: none;
+  }
+  
+  .toggle-btn {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* 🌙 Modo Oscuro */
+  .dark-mode {
+    background-color: #273142 !important;
+    color: white;
+  }
+  
+  .dark-mode .nav-link {
+    color: white;
+  }
+  
+  .dark-mode .btn-outline-dark {
+    color: white;
+  }
+  

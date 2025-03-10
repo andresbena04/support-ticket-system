@@ -1,0 +1,43 @@
+<div [class.collapsed]="isCollapsed" [class.dark-mode]="isDarkMode"
+  class="vh-100 d-flex flex-column flex-shrink-0 p-3 sidebar"
+  [ngStyle]="{'width': isCollapsed ? '5.75rem' : '15.62rem'}">
+  <!-- Botón para colapsar sidebar -->
+  <button class="btn btn-outline-primary btn-sm mb-3 toggle-btn" (click)="toggleSidebar()">
+    <i class='fs-5 bx' [ngClass]="isCollapsed ? 'bx-chevron-right' : 'bx-chevron-left'"></i>
+  </button>
+
+  <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+    <span class="fs-4">Panel</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item mb-3">
+      <a [routerLink]="redirectUrl" class="nav-link d-flex justify-content-center align-items-center "
+        [ngClass]="{ 'active': isActive('/admin/dashboard')  || isActive('/dashboard')}">
+        <i class='bx bxs-dashboard fs-5'></i> <span class="ms-2" *ngIf="!isCollapsed">Dashboard</span>
+      </a>
+    </li>
+    @if (isAdmin()) {
+    <li class="mb-3">
+      <a [routerLink]="['/admin/users']" class="nav-link d-flex justify-content-center align-items-center "
+        [ngClass]="{ 'active': isActive('/admin/users') || isActive('/admin/users/new') }">
+        <i class='bx bxs-user-detail  fs-5'></i> <span class="ms-2" *ngIf="!isCollapsed">Usuarios</span>
+      </a>
+    </li>
+    }
+    <li class="mb-3">
+      <a [routerLink]="redirectUrlTickets" class="nav-link d-flex justify-content-center align-items-center "
+        [ngClass]="{ 'active': isActive('/tickets') || isActive('/tickets/new')  || isActive('/admin/tickets') || isActive('/admin/tickets/view/') }">
+        <i class='bx bx-file fs-5'></i> <span class="ms-2" *ngIf="!isCollapsed">Tickets</span>
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="text-center">
+    <!-- Botón para activar modo oscuro -->
+    <button class='btn btn-sm w-75' [ngClass]="isDarkMode ? 'btn-outline-light' : 'btn-outline-dark'"
+      (click)="toggleDarkMode()">
+      <i class='fs-5 bx' [ngClass]="isDarkMode ? 'bx-sun' : 'bx-moon'"></i>
+    </button>
+  </div>
+</div>

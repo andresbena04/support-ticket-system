@@ -1,0 +1,76 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1" [class.dark-mode]="isDarkMode">
+        <app-navbar></app-navbar>
+        <div class="container mt-5 shadow p-4 rounded">
+            @if (!loading) {
+            <h4 class="text-center mb-4">Subir lista de usuarios</h4>
+
+            <!-- Botón para cargar archivo -->
+            <!-- <div class="text-center">
+                <button class="btn btn-success w-100 mb-3 d-flex align-items-center justify-content-center"
+                    (click)="fileInput.click()">
+                    <i class='bx bxs-file-find fs-4 me-1'></i> Cargar Archivo Excel
+                </button>
+            </div> -->
+
+            <!-- Área de arrastrar y soltar -->
+            <div class="border border-secundary border-dashed p-4 text-center rounded d-flex flex-column align-items-center justify-content-center"
+                role="button" aria-label="Subir archivo Excel" (dragover)="onDragOver($event)" (drop)="onDrop($event)"
+                (click)="fileInput.click()" style="height: 15rem; cursor: pointer;">
+                <i class='bx bx-upload fs-1 fw-bold'
+                    [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}"></i>
+
+                <input type="file" #fileInput class="d-none" accept=".xls,.xlsx" (change)="onFileSelected($event)">
+
+                <p class="mb-0 mt-2" [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">
+                    Arrastra y suelta un archivo aquí o haz clic para seleccionarlo
+                </p>
+            </div>
+
+
+            <!-- Nombre del archivo seleccionado -->
+            @if (fileName) {
+            <p class="mt-3 text-center fw-bold">
+                {{ fileName }}
+            </p>
+            }
+            <!-- Botón para registrar usuarios -->
+            <div class="text-center mt-4">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <button class="btn btn-secondary w-100" [routerLink]="['/admin/users/new']">
+                            Volver
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-primary w-100" [disabled]="!selectedFile" (click)="uploadFile()">
+                            Registrar Usuarios
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            }@else {
+            <div class="text-center mt-4">
+                <h4>Procesando archivo, esto puede tardar unos segundos...</h4>
+                <p [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">Por favor, no cierre ni recargue la
+                    página mientras se completa la carga.</p>
+                <div class="spinner-container">
+                    <div class="spinner-grow text-secondary spinner-delay-1" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-secondary spinner-delay-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-secondary spinner-delay-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1" [class.dark-mode]="isDarkMode">
+        <app-navbar></app-navbar>
+        <div class="container mt-3">
+            <h3 class="text-center">Todos los tickets</h3>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <button class="btn btn-primary d-flex align-items-center" [routerLink]="['/tickets/new']"><i
+                        class='bx bxs-file-plus fs-4 me-1'></i>Crear nuevo ticket</button>
+                <span><strong>{{countTickets}} </strong> {{ countTickets === 1 ? 'solicitud registrada' : 'solicitudes registradas' }}</span>
+
+            </div>
+            <div [ngClass]="isDarkMode ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'" style="height: 27.2rem;">
+                <ag-grid-angular style="width: 100%; height: 100%;" [columnDefs]="columnDefs"
+                    [gridOptions]="gridOptions" [rowData]="tickets" [modules]="modules">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>

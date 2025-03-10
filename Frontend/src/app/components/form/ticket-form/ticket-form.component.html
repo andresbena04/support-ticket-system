@@ -1,0 +1,61 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1" [class.dark-mode]="isDarkMode">
+        <app-navbar></app-navbar>
+        <div class="container mt-5">
+            <form [formGroup]="ticketsForm" class="shadow p-4 rounded" (ngSubmit)="onSubmit()">
+                <div class="d-flex align-items-center">
+                    @if (!isEditMode) {
+                        <h3 class="mb-4">Creacion de tickets</h3>
+                    }@else {
+                        <h3 class="mb-4">Editar de tickets</h3>
+                    }
+                    
+                </div>
+
+                <!-- Datos de usuario -->
+                <div class="mb-3">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="title" class="form-label">Titulo</label>
+                            <input type="text" id="title" formControlName="title" class="form-control"
+                                placeholder="Titulo">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="priority" class="form-label">Prioridad</label>
+                            <select id="priority" formControlName="priority" class="form-select">
+                                <option value="" selected disabled>Seleccione</option>
+                                <option value="LOW">Baja</option>
+                                <option value="MEDIUM">Media</option>
+                                <option value="HIGH">Alta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea id="description" formControlName="description" class="form-control" rows="4" placeholder="Escribe la descripción aquí..."></textarea>
+                        </div> 
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-secondary w-100" [routerLink]="redirectUrl">Volver</button>
+                    </div>
+                    <div class="col-6">
+                        @if (!loading) {
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="ticketsForm.invalid">{{textButton}}</button>
+                        } @else {
+                        <div class="loading-spinner text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

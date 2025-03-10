@@ -1,0 +1,192 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1" [class.dark-mode]="isDarkMode">
+        <app-navbar></app-navbar>
+        <div class="container mt-4">
+            <!-- Tabs navs -->
+            <ul class="nav nav-tabs nav-fill border mb-3" id="ex1" role="tablist"
+                [ngClass]="{'light-mode': !isDarkMode, 'dark-mode-alt': isDarkMode}">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active " id="ticket-info-tab" data-bs-toggle="tab"
+                        data-bs-target="#ticket-info" type="button" role="tab" aria-controls="ticket-info"
+                        aria-selected="true">
+                        Información del Ticket
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" (click)="scrollToBottom()" id="commentaries-tab" data-bs-toggle="tab"
+                        data-bs-target="#commentaries" type="button" role="tab" aria-controls="commentaries"
+                        aria-selected="false">
+                        Comentarios
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history"
+                        type="button" role="tab" aria-controls="history" aria-selected="false">
+                        Historial del Ticket
+                    </button>
+                </li>
+            </ul>
+            <!-- Tabs navs -->
+
+            <!-- Tabs content -->
+            <div class="tab-content" id="ex2-content" [ngClass]="{ 'dark-mode': isDarkMode }">
+                <div class="tab-pane fade show active" id="ticket-info" role="tabpanel"
+                    aria-labelledby="ticket-info-tab">
+                    <div class="card" [ngClass]="{ 'dark-mode-alt': isDarkMode }">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ ticket?.title }}</h4>
+                            <p class="card-text"><strong>Descripción:</strong> {{ ticket?.description }}</p>
+                            <p><strong>Estado:</strong>
+                                <span class="ms-1 badge" [ngClass]="statusBadge.class">
+                                    {{ statusBadge.text }}
+                                </span>
+                            </p>
+
+                            <p><strong>Prioridad:</strong>
+                                <span class="ms-1 badge" [ngClass]="priorityBadge.class">
+                                    {{ priorityBadge.text }}
+                                </span>
+                            </p>
+                            @if (UserRole == 'ADMIN') {
+                            <p><strong>Usuario: </strong>{{ticket?.user?.email}}</p>
+                            }
+                            <p><strong>Creado:</strong> {{ ticket?.createdAt | date:'short' }}</p>
+                            <p><strong>Última actualización:</strong> {{ ticket?.updatedAt | date:'short' }}</p>
+                            @if (ticket?.status !== 'CLOSED') {
+                            @if (UserRole === 'ADMIN') {
+                            <button class="btn btn-success mt-3 d-flex align-items-center"
+                                (click)="ticket.id && updateTicketStatus(ticket.id)">
+                                <i class="bx bx-edit fs-5"></i><span class="ms-2">Actualizar estado</span>
+                            </button>
+
+                            } @else {
+                            <button class="btn btn-primary mt-3 d-flex align-items-center"
+                                (click)="ticket.id && editTicket(ticket.id)">
+                                <i class="bx bxs-pencil"></i><span class="ms-2"> Editar Ticket</span>
+                            </button>
+                            }
+                            } @else {
+                            @if (UserRole === 'ADMIN') {
+                            <button class="btn btn-danger mt-3 d-flex align-items-center"
+                                (click)="ticket.id && deleteTicket(ticket.id)">
+                                <i class='bx bxs-trash'></i><span class="ms-2">Eliminar ticket</span>
+                            </button>
+                            }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="commentaries" role="tabpanel" aria-labelledby="commentaries-tab">
+                    <section>
+                        <div class="card" [ngClass]="{ 'dark-mode-alt': isDarkMode }" style="height: 27rem;">
+                            <div id="commentsContainer" class="card-body overflow-auto p-3" style="height: 400px;">
+                                @for(comment of commentsTicket; track $index) {
+                                <!-- Mostrar el separador de fecha -->
+                                @if(comment.isNewDay) {
+                                <div class="text-center my-2">
+                                    @if(comment.isToday) {
+                                    <div class="d-flex align-items-center my-3">
+                                        <hr class="flex-grow-1 border-secondary">
+                                        <span class="badge mx-2"
+                                            [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">Hoy</span>
+                                        <hr class="flex-grow-1 border-secondary">
+                                    </div>
+                                    } @else {
+                                    <div class="d-flex align-items-center my-3">
+                                        <hr class="flex-grow-1 border-secondary">
+                                        <span class="badge mx-2"
+                                            [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">{{
+                                            comment.createdAt |
+                                            date:'longDate' }}</span>
+                                        <hr class="flex-grow-1 border-secondary">
+                                    </div>
+                                    }
+                                </div>
+                                }
+
+                                <!-- Mensaje recibido -->
+                                @if(userID.toString() !== comment.userId.toString()) {
+                                <div
+                                    class="d-flex flex-column align-items-start mb-3 p-2 rounded-3 bg-secondary shadow-sm w-50">
+                                    <div class="d-flex justify-content-between w-100">
+                                        <span class="fw-bold text-white">{{ comment.user?.email }}</span>
+                                        <span class="small text-muted">{{ comment.createdAt | date:'short' }}</span>
+                                    </div>
+                                    <hr class="my-1 w-100" />
+                                    <div class="p-2 text-white">
+                                        {{ comment.content }}
+                                    </div>
+                                </div>
+                                } @else {
+                                <!-- Mensaje enviado -->
+                                <div
+                                    class="d-flex flex-column align-items-end ms-auto mb-3 p-2 rounded-3 bg-primary shadow-sm text-white w-50">
+                                    <div class="d-flex justify-content-between w-100">
+                                        <span class="fw-bold text-white text-end">{{ comment.user?.email }}</span>
+                                        <span class="small text-white-50">{{ comment.createdAt | date:'short' }}</span>
+                                    </div>
+                                    <hr class="my-1 w-100" />
+                                    <div class="p-2">
+                                        {{ comment.content }}
+                                    </div>
+                                </div>
+                                }
+                                }
+
+                            </div>
+
+                            <!-- Input de mensaje -->
+                            <div class="card-footer d-flex align-items-center p-3">
+                                <form [formGroup]="formComment" (ngSubmit)="addComments()" class="w-100 d-flex">
+                                    <input type="text" class="form-control" formControlName="content"
+                                        placeholder="Escribe un mensaje">
+                                    @if (!loading) {
+                                    <button class="btn btn-primary ms-2" [disabled]="formComment.invalid"><i
+                                            class="bx bx-paper-plane"></i></button>
+                                    }@else {
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    }
+
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                </div>
+                <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                    <div class="timeline rounded-3 border p-2 " [ngClass]="{ 'dark-mode-alt': isDarkMode}"
+                        style="min-height: 24rem ; max-height: 24rem; overflow-y: auto;">
+                        @for (item of history; track $index) {
+                        <div class="timeline-item d-flex align-items-start mt-2">
+                            <div class="timeline-icon rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                                style="width: 30px; height: 30px; font-size: 16px;">
+                                {{ $index + 1 }}
+                            </div>
+                            <div class="timeline-content ms-2">
+                                <h6 class="mb-1">{{ item.action }}</h6>
+                                <p [ngClass]="{'text-light': isDarkMode, 'text-muted': !isDarkMode}">
+                                    <i class="bi bi-person"></i>{{ item.user?.email }} <br>
+                                    <i class="bi bi-clock"></i> {{ item.createdAt | date: 'short' }}
+                                </p>
+                            </div>
+                        </div>
+                        }@empty {
+                        <span>Sin historial</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- Tabs content -->
+            <!-- Botón Volver -->
+            <button class="btn btn-secondary mt-3" [routerLink]="redirectUrl">
+                <i class="bx bx-arrow-left"></i> Volver
+            </button>
+
+        </div>
+    </div>
+</div>

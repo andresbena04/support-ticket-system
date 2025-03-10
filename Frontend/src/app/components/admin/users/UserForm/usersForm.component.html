@@ -1,0 +1,87 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1" [class.dark-mode]="isDarkMode">
+        <app-navbar></app-navbar>
+        <div class="container mt-5">
+            <form [formGroup]="usersForm" class="shadow p-4 rounded" (ngSubmit)="onSubmit()">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        @if (!isEditMode) {
+                        <h3 class="mb-4">Creación de usuario</h3>
+                        } @else {
+                        <h3 class="mb-4">Edición de usuario</h3>
+                        }
+                    </div>
+                    @if (!isEditMode) {
+                    <button type="button" class="btn btn-success d-flex align-items-center "
+                        [routerLink]="['/admin/users/upload']">
+                        <i class="bx bx-upload fs-5 me-1"></i> Subir Usuarios desde Excel
+                    </button>
+                    }
+                </div>
+
+
+                <!-- Datos de usuario -->
+                <div class="mb-3">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Nombre</label>
+                            <input type="text" id="firstName" formControlName="firstName" class="form-control"
+                                placeholder="Nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Apellidos</label>
+                            <input type="text" id="lastName" formControlName="lastName" class="form-control"
+                                placeholder="Apellidos">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Correo electronico</label>
+                            <input type="text" id="email" formControlName="email" class="form-control"
+                                placeholder="Correo electronico">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="role" class="form-label">Rol</label>
+                            <select id="role" formControlName="role" class="form-select">
+                                <option value="" selected disabled>Seleccione</option>
+                                <option value="USER">Usuario</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-check-label" for="status">Estado</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input fs-3 p-2 ms-0" type="checkbox" role="switch"
+                                    id="status" formControlName="status"
+                                    [ngClass]="{'bg-success': isActive, 'bg-secondary': !isActive}"
+                                    (change)="toggleSwitch($event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-secondary w-100"
+                            [routerLink]="['/admin/users']">Volver</button>
+                    </div>
+                    <div class="col-6">
+                        @if (!loading) {
+                        <button type="submit" class="btn btn-primary w-100"
+                            [disabled]="usersForm.invalid">{{textButton}}</button>
+                        } @else {
+                        <div class="loading-spinner text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

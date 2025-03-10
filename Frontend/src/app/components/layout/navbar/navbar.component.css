@@ -1,0 +1,11 @@
+/* Modo claro */
+.dropdown-item:hover {
+    background-color: #E4E1E1FF; /* Gris claro */
+    color: #000 !important;
+}
+
+/* Modo oscuro */
+.dropdown-menu.bg-dark .dropdown-item:hover {
+    background-color: #343a40; /* Gris oscuro */
+    color: #fff !important;
+}

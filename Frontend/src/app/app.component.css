@@ -1,0 +1,15 @@
+.dark-mode {
+  background-color: #121212 !important;
+  color: white;
+}
+.dark-mode .navbar {
+  background-color: #273142 !important;
+}
+
+.dark-mode .nav-link {
+  color: white !important;
+}
+
+.dark-mode .btn-outline-light {
+  border-color: white;
+}

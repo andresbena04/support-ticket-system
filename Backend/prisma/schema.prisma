@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuario
+model User {
+  id               Int       @id @default(autoincrement()) // ID único de usuario
+  firstName        String   // Nombre del usuario (opcional)
+  lastName         String   // Apellidos del usuario (opcional)
+  email            String    @unique // Correo electrónico único
+  password         String    // Contraseña del usuario (encriptada)
+  role             Role      @default(USER) // Rol del usuario (definido en el enum Role)
+  status           UserStatus @default(ACTIVE) // Estado del usuario (activo o inactivo)
+  tickets          Ticket[]  // Relación de los tickets creados por el usuario
+  comments         Comment[] // Relación de comentarios hechos por el usuario
+  histories        History[] // Relación de historial de actividades del usuario
+  createdAt        DateTime  @default(now()) // Fecha de creación de la cuenta
+  updatedAt        DateTime  @updatedAt // Fecha de última actualización de la cuenta
+  resetToken       String?   // Token de restablecimiento de contraseña
+  resetTokenExpires DateTime? // Fecha de expiración del token
+}
+
+// Enum para el estado del usuario
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// Modelo de Ticket
+model Ticket {
+  id          Int       @id @default(autoincrement()) // ID único del ticket
+  title       String    // Título del ticket
+  description String    // Descripción del ticket
+  status      TicketStatus @default(OPEN) // Estado del ticket (abierto, en progreso, cerrado)
+  priority    TicketPriority @default(MEDIUM) // Prioridad del ticket
+  createdAt   DateTime  @default(now()) // Fecha de creación
+  updatedAt   DateTime  @updatedAt // Fecha de última actualización
+  userId      Int       // ID del usuario que creó el ticket
+  user        User      @relation(fields: [userId], references: [id]) // Relación con el usuario
+  comments    Comment[] // Relación de comentarios asociados a este ticket
+  history     History[] // Historial de actualizaciones del ticket
+}
+
+// Enum para el estado del ticket
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+// Enum para la prioridad del ticket
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// Modelo de Comentario
+model Comment {
+  id        Int       @id @default(autoincrement()) // ID único del comentario
+  content   String    // Contenido del comentario
+  createdAt DateTime  @default(now()) // Fecha de creación
+  userId    Int       // ID del usuario que dejó el comentario
+  ticketId  Int       // ID del ticket al que pertenece el comentario
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade) // Relación con el usuario
+  ticket    Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade) // Relación con el ticket
+}
+
+// Modelo de Historial de actividades del ticket
+model History {
+  id        Int       @id @default(autoincrement()) // ID único del historial
+  action    String    // Descripción de la acción realizada
+  createdAt DateTime  @default(now()) // Fecha de creación
+  userId    Int       // ID del usuario que realizó la acción
+  ticketId  Int       // ID del ticket al que se le hizo la acción
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade) // Relación con el usuario
+  ticket    Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade) // Relación con el ticket
+}
+
+// Enum para los roles de usuario
+enum Role {
+  ADMIN
+  USER
+}

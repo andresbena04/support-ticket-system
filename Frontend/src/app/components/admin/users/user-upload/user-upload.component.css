@@ -1,0 +1,42 @@
+.dark-mode {
+  background-color: #354257ff !important;
+  color: white;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacio entre los spinners */
+}
+
+.spinner-grow {
+  animation: spinnerFade 1.5s infinite ease-in-out;
+}
+
+.spinner-delay-1 {
+  animation-delay: 0s;
+}
+
+.spinner-delay-2 {
+  animation-delay: 0.3s;
+}
+
+.spinner-delay-3 {
+  animation-delay: 0.6s;
+}
+
+/* Animación para que los spinners aparezcan en secuencia */
+@keyframes spinnerFade {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}

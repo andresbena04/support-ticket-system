@@ -1,0 +1,28 @@
+.dark-mode {
+  background-color: #354257ff !important;
+  color: white;
+}
+/* Modo oscuro alternativo */
+.dark-mode-alt {
+  background-color: #212529 !important; 
+  color: white;
+}
+/* Modo claro */
+.light-mode {
+  background-color: #F8F9FA !important;
+  color: black;
+}
+/* Pestaña activa en modo claro */
+.nav-tabs .nav-item .active {
+  background-color: #edf3f9 !important; 
+  color: black;
+}
+
+/* Pestaña activa en modo oscuro */
+.dark-mode .nav-tabs .nav-item .active {
+  background-color: #273142 !important;
+  color: white;
+}
+.nav-tabs .nav-link {
+  border-radius: 0 !important;
+}

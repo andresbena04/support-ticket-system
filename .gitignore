@@ -1,0 +1,45 @@
+# Dependencias de Node.js
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+#Angular
+.angular/
+
+# Archivos de entorno
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Archivos de Prisma
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations/
+
+# Archivos de logs
+logs/
+*.log
+log*.log
+logs/**/*.log
+
+# Directorios de compilación
+dist/
+out/
+build/
+
+# Caché de TypeScript
+tsconfig.tsbuildinfo
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+.editorconfig
+
+# Otros
+.DS_Store
+Thumbs.db
+
