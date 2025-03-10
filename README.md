@@ -16,7 +16,7 @@ Tickets/
 
 ```sh
 cd Backend
-npm run dev
+npm install
 ```
 
 ### 2️⃣ Configurar Variables de Entorno
@@ -45,7 +45,7 @@ npx prisma migrate deploy
 ### 4️⃣ Iniciar el Servidor
 
 ```sh
-npm start
+npm run dev
 ```
 
 ## 🎨 Configuración del Frontend
